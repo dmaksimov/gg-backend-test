@@ -18,16 +18,16 @@ class VideoLoginPlugin
 {
     public function __construct()
     {
-        add_action('wp_enqueue_scripts', array($this, 'enqueueAssets'));
-        add_action('init', array($this, 'initShortcode'));
-        add_action('wp_ajax_nopriv_video_login', array($this, 'doAjaxLogin'));
-        add_action('wp_footer', array($this, 'insertLoginModal'));
+        add_action('wp_enqueue_scripts', [$this, 'enqueueAssets']);
+        add_action('init', [$this, 'initShortcode']);
+        add_action('wp_ajax_nopriv_video_login', [$this, 'doAjaxLogin']);
+        add_action('wp_footer', [$this, 'insertLoginModal']);
     }
 
     public function enqueueAssets()
     {
         wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
-        wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', array('jquery'));
+        wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', ['jquery']);
         wp_enqueue_script('wistia', 'https://fast.wistia.com/assets/external/E-v1.js');
 
         if (! is_user_logged_in()) {
@@ -35,24 +35,24 @@ class VideoLoginPlugin
             wp_localize_script(
                 'video-login',
                 'videoLoginAjax',
-                array(
+                [
                     'ajax_url' => admin_url('admin-ajax.php'),
                     'nonce' => wp_create_nonce('video_login'),
-                )
+                ]
             );
         }
     }
 
     public function initShortcode()
     {
-        add_shortcode('wistia-video', array($this, 'wistiaVideoShortcode'));
+        add_shortcode('wistia-video', [$this, 'wistiaVideoShortcode']);
     }
 
     public function wistiaVideoShortcode($atts)
     {
-        $atts = shortcode_atts(array(
+        $atts = shortcode_atts([
             'id' => 'szmzwjd7jt',
-        ), $atts, 'wistia-video');
+        ], $atts, 'wistia-video');
 
         return "<div class=\"wistia_embed wistia_async_{$atts['id']}\" style=\"width:640px;height:360px;\"></div>";
     }

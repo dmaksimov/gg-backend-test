@@ -1,10 +1,12 @@
 videoLogin = {
   video: null,
   modal: null,
+  loggedIn: false,
 
   init() {
     this.initModal()
     this.initVideoListener()
+    this.listenForEnterKeyUp()
   },
 
   initModal() {
@@ -20,9 +22,15 @@ videoLogin = {
       id: '_all', onReady: (video) => {
         this.video = video
 
-        this.video.bind('crosstime', 60, () => {
-          this.video.pause()
-          this.modal.show()
+        this.video.bind('timechange', t => {
+          if (this.loggedIn) {
+            return;
+          }
+
+          if (t > 60) {
+            this.video.pause()
+            this.modal.show()
+          }
         })
       }
     });
@@ -43,14 +51,25 @@ videoLogin = {
         return;
       }
 
+      this.loggedIn = true
+
       jQuery('#video-login-modal').find('button').text('Success!')
 
       setTimeout(() => {
         this.modal.hide()
         this.video.play()
-      }, 2000)
+      }, 1000)
     });
   },
+
+  listenForEnterKeyUp(e) {
+    jQuery('#video-login-modal').find('input').keyup(e => {
+      let keycode = e.keyCode ? e.keyCode : e.which
+      if (keycode === 13) {
+        this.doLogin()
+      }
+    })
+  }
 }
 
 jQuery(document).ready(function() {

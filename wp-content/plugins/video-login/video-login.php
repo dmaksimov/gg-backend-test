@@ -54,11 +54,7 @@ class VideoLoginPlugin
             'id' => 'szmzwjd7jt',
         ), $atts, 'wistia-video');
 
-        $result = <<<HTML
-<div class="wistia_embed wistia_async_{$atts['id']}" style="width:640px;height:360px;"></div>
-HTML;
-
-        return $result;
+        return "<div class=\"wistia_embed wistia_async_{$atts['id']}\" style=\"width:640px;height:360px;\"></div>";
     }
 
     public function insertLoginModal()

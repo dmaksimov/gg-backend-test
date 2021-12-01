@@ -9,12 +9,12 @@
 
                     <div class="">
                         <label>Username</label>
-                        <input type="text" class="form-control" name="username">
+                        <input type="text" class="form-control" name="username" onkeyup="videoLogin.handleKeyDown">
                     </div>
 
                     <div class="mb-3">
                         <label>Password</label>
-                        <input type="password" class="form-control" name="password">
+                        <input type="password" class="form-control" name="password" onkeyup="videoLogin.handleKeyDown">
                     </div>
 
                     <button class="btn btn-primary" type="button" onclick="videoLogin.doLogin()">Login</button>
